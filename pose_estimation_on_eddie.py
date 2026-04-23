@@ -36,7 +36,7 @@ def main():
     stageout_dict = {deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}": eddie_active_projects / "Wolf/MMNAV/derivatives" / f"M{mouse:02d}/D{day:02d}/{session}/"}
 
     uv_directory = "/exports/eddie/scratch/chalcrow/wolf/code/nolanlab-dlc/"
-    python_arg = f"dlc_on_comp.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
+    python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
 
     run_python_script(uv_directory, python_arg, cores=8, email="chalcrow@ed.ac.uk", staging=False, job_name=run_python_name)
     run_stage_script(stageout_dict, job_name=stageout_job_name, hold_jid=run_python_name)

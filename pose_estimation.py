@@ -1,3 +1,38 @@
+"""
+This script is the pipeline step:
+
+|-----------|            |--------------|
+|   video   |    --->    |  dlc output  |
+|-----------|            |--------------|
+
+It can be called from the command line. An example:
+
+uv run sort_on_comp.py --mouse 6 --day 12 --session OF1 --bodypart body --data_folder /home/nolanlab/Work/Harry_Project/data/ --deriv_folder /home/nolanlab/Work/Harry_Project/derivatives/
+
+This will take the video data for mouse "6" on day "12" for the session "OF1",
+and apply the `of_cohort12-krs-2024-10-30` dlc model to it.
+
+We expect the data to be stored in the form
+
+data_folder/
+    global_session_type/
+        M{mouse:02d}_D{day:02d}_*_{session_type}/
+            M{mouse:02d}_D{day:02d}_{session_type}_*.avi
+
+And the output data will be stored in the form
+
+deriv_folder/
+    M{mouse:02d}/
+        D{day:02d}/
+            {session_type}/
+                dlc_output_{bodypart}/
+                    lots
+                    of
+                    output
+                    from
+                    dlc
+"""
+
 import os
 import shutil
 from argparse import ArgumentParser
@@ -100,9 +135,6 @@ def main():
     cropped_video_path = str(
         save_path / f"M{mouse:02d}_D{day:02d}_{session}_side_capture_{bodypart}.avi"
     )
-
-    # derivatives_video_path = save_path + "/" + video_filename
-    # _ = shutil.copy(video_path, derivatives_video_path)
 
     if bodypart in ["eye", "tongue"]:
         all_crop_info = pd.read_csv(f"wolf_crops/{bodypart}_crops_wolf.csv")
