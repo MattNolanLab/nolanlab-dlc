@@ -73,7 +73,7 @@ def main():
     python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
 
     run_stage_script(stagein_dict, job_name=stagein_job_name)
-    run_python_script(uv_directory, python_arg, cores=8, email="chalcrow@ed.ac.uk", staging=False, hold_jid=stagein_job_name, job_name==run_python_name)
+    run_python_script(uv_directory, python_arg, cores=8, email="chalcrow@ed.ac.uk", staging=False, hold_jid=stagein_job_name, job_name=run_python_name)
     run_stage_script(stageout_dict, job_name=stageout_job_name, hold_jid=run_python_name)
 
 if __name__ == "__main__":
