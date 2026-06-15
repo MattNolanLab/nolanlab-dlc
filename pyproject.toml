@@ -13,5 +13,9 @@ dependencies = [
     "torchvision>=0.24.0",
 ]
 
+[build-system]
+requires = ["setuptools>=78.0.2"]
+build-backend = "setuptools.build_meta"
+
 [tool.uv.sources]
-eddie-helper = { path = "../eddie_helper" }
+eddie-helper = { git = "https://github.com/chrishalcrow/eddie_helper.git" }

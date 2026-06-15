@@ -35,7 +35,7 @@ def main():
     eddie_active_projects = Path("/exports/cmvm/datastore/sbms/groups/CDBS_SIDB_storage/NolanLab/ActiveProjects/")
     stageout_dict = {deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}": eddie_active_projects / "Wolf/MMNAV/derivatives" / f"M{mouse:02d}/D{day:02d}/{session}/"}
 
-    uv_directory = "/exports/eddie/scratch/chalcrow/wolf/code/nolanlab-dlc/"
+    uv_directory = "/exports/eddie/scratch/chalcrow/code/nolanlab-dlc/"
     python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
 
     run_python_script(uv_directory, python_arg, cores=8, email="chalcrow@ed.ac.uk", staging=False, job_name=run_python_name)

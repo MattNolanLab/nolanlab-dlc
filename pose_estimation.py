@@ -108,11 +108,11 @@ def main():
     deriv_folder = Path(deriv_folder)
 
     if bodypart == "tongue":
-        config_path = "/exports/eddie/scratch/chalcrow/wolf/code/models/c12_lick-chris-2024-10-03/config.yaml"
+        config_path = "/exports/eddie/scratch/chalcrow/code/models/c12_lick-chris-2024-10-03/config.yaml"
     elif bodypart == "eye":
-        config_path = "/exports/eddie/scratch/chalcrow/wolf/code/models/vr-hc-2024-03-14_eddie/config.yaml"
+        config_path = "/exports/eddie/scratch/chalcrow/code/models/vr-hc-2024-03-14_eddie/config.yaml"
     elif bodypart == "body":
-        config_path = "/exports/eddie/scratch/chalcrow/wolf/code/models/of_cohort12-krs-2024-10-30/config.yaml"
+        config_path = "/exports/eddie/scratch/chalcrow/code/models/of_cohort12-krs-2024-10-30/config.yaml"
 
     mouse_day_session_folder = list(
         data_folder.glob(f"M{mouse:02d}_D{day:02d}_*{session}")
