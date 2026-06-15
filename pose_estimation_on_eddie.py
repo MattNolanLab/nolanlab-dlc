@@ -46,7 +46,7 @@ def main():
         deriv_folder = "/exports/eddie/scratch/chalcrow/wolf/derivatives"
     deriv_folder = Path(deriv_folder)
     
-    recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/wolf/wolf_filepaths.csv')
+    recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/scripts/wolf/wolf_filepaths.csv')
 
     active_projects_path = Path("/exports/cmvm/datastore/sbms/groups/CDBS_SIDB_storage/NolanLab/ActiveProjects/")
     
