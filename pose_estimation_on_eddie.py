@@ -54,11 +54,11 @@ def main():
     for recording_path in recording_paths:
         recording_folder_name = Path(recording_path).name
         if "OF1" in recording_path:
-            session_type_folder = data_folder / "OF"
-            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / 'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
+            session_type_folder = data_folder
+            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
         else:
-            session_type_folder = data_folder / "VR"
-            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / 'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
+            session_type_folder = data_folder
+            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
         session_type_folder.mkdir(exist_ok=True)
         (session_type_folder / recording_folder_name).mkdir(exist_ok=True)
 
