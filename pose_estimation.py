@@ -122,9 +122,9 @@ def main():
         config_path = models_folder / "of_cohort12-krs-2024-10-30/config.yaml"
 
     if bodypart == 'body':
-        session_type_folder = 'VR'
-    else:
         session_type_folder = 'OF'
+    else:
+        session_type_folder = 'VR'
         
     mouse_day_session_folder = list(
         (data_folder / session_type_folder).glob(f"M{mouse:02d}_D{day:02d}_*{session}")
