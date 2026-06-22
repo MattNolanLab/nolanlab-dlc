@@ -89,6 +89,7 @@ def main():
     parser.add_argument("bodypart")
     parser.add_argument("--data_folder", default=None)
     parser.add_argument("--deriv_folder", default=None)
+    parser.add_argument("--models_folder", default=None, help="Folder where you keep your dlc models")
 
     mouse = int(parser.parse_args().mouse)
     day = int(parser.parse_args().day)
@@ -108,15 +109,25 @@ def main():
         deriv_folder = "/exports/eddie/scratch/chalcrow/derivatives"
     deriv_folder = Path(deriv_folder)
 
-    if bodypart == "tongue":
-        config_path = "/exports/eddie/scratch/chalcrow/code/models/c12_lick-chris-2024-10-03/config.yaml"
-    elif bodypart == "eye":
-        config_path = "/exports/eddie/scratch/chalcrow/code/models/vr-hc-2024-03-14_eddie/config.yaml"
-    elif bodypart == "body":
-        config_path = "/exports/eddie/scratch/chalcrow/code/models/of_cohort12-krs-2024-10-30/config.yaml"
+    models_folder = parser.parse_args().models_folder
+    if models_folder is None:
+        models_folder = "/exports/eddie/scratch/chalcrow/code/models"
+    models_folder = Path(models_folder)
 
+    if bodypart == "tongue":
+        config_path = models_folder / "c12_lick-chris-2024-10-03/config.yaml"
+    elif bodypart == "eye":
+        config_path = models_folder / "vr-hc-2024-03-14_eddie/config.yaml"
+    elif bodypart == "body":
+        config_path = models_folder / "of_cohort12-krs-2024-10-30/config.yaml"
+
+    if bodypart == 'body':
+        session_type_folder = 'VR'
+    else:
+        session_type_folder = 'OF'
+        
     mouse_day_session_folder = list(
-        data_folder.glob(f"M{mouse:02d}_D{day:02d}_*{session}")
+        (data_folder / session_type_folder).glob(f"M{mouse:02d}_D{day:02d}_*{session}")
     )[0]
 
     if bodypart in ["eye", "tongue"]:
