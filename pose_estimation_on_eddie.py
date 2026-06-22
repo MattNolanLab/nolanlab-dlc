@@ -30,6 +30,7 @@ def main():
     parser.add_argument('bodypart')
     parser.add_argument('--data_folder', default="")
     parser.add_argument('--deriv_folder', default="")
+    parser.add_argument("--models_folder", default=None, help="Folder where you keep your dlc models")
 
     mouse = int(parser.parse_args().mouse)
     mouse_string = f"{mouse:02d}"
@@ -49,6 +50,11 @@ def main():
     if len(deriv_folder) == 0:
         deriv_folder = "/exports/eddie/scratch/chalcrow/derivatives"
     deriv_folder = Path(deriv_folder)
+
+    models_folder = parser.parse_args().models_folder
+    if models_folder is None:
+        models_folder = "/exports/eddie/scratch/chalcrow/code/models"
+    models_folder = Path(models_folder)
     
     recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/scripts/wolf/wolf_filepaths.csv')
 
@@ -80,7 +86,7 @@ def main():
     stageout_dict = {deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}": active_projects_path / "Wolf/MMNAV/derivatives" / f"M{mouse:02d}/D{day:02d}/{session}/"}
 
     uv_directory = os.getcwd()
-    python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
+    python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder} --models_folder {models_folder}"
 
     if do_stagein_job:
         run_stage_script(stagein_dict, job_name=stagein_job_name)
