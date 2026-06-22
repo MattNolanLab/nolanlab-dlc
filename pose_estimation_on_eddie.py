@@ -1,8 +1,12 @@
-from eddie_helper.make_scripts import run_python_script, run_stage_script
+import os
 
-import pandas as pd
 from argparse import ArgumentParser
 from pathlib import Path
+
+import pandas as pd
+
+from eddie_helper.make_scripts import run_python_script, run_stage_script
+
 
 def filepath_from_mouse_day_sessions(mouse, day, sessions, path_to_all_filepaths):
     
@@ -49,16 +53,23 @@ def main():
     recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/scripts/wolf/wolf_filepaths.csv')
 
     active_projects_path = Path("/exports/cmvm/datastore/sbms/groups/INCR-NolanLab/ActiveProjects/")
-    
+
+    do_stagein_job = False
     stagein_dict = {}
     for recording_path in recording_paths:
         recording_folder_name = Path(recording_path).name
         if "OF" in recording_path:
+            video_name = f'M{mouse_string}_D{day_string}_*_{session}.avi'
             session_type_folder = data_folder / 'OF'
-            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_*_{session}.avi'
         else:
-            session_type_folder = data_folder / 'VR'
-            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
+            video_name = f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
+            session_type_folder = data_folder / 'VR'    
+        output_path = session_type_folder / recording_folder_name / video_name
+
+        if len(list(output_path.parent.glob(video_name))) == 0:
+            stagein_dict[f"{active_projects_path / recording_path}"] = output_path
+            do_stagein_job = True
+            
         session_type_folder.mkdir(exist_ok=True)
         (session_type_folder / recording_folder_name).mkdir(exist_ok=True)
 
@@ -66,13 +77,13 @@ def main():
     run_python_name = f"M{mouse}D{day}{session[:2]}{bodypart}"
     stageout_job_name = f"M{mouse}D{day}{session[:2]}out" 
 
-    eddie_active_projects = Path("/exports/cmvm/datastore/sbms/groups/CDBS_SIDB_storage/NolanLab/ActiveProjects/")
-    stageout_dict = {deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}": eddie_active_projects / "Wolf/MMNAV/derivatives" / f"M{mouse:02d}/D{day:02d}/{session}/"}
+    stageout_dict = {deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}": active_projects_path / "Wolf/MMNAV/derivatives" / f"M{mouse:02d}/D{day:02d}/{session}/"}
 
-    uv_directory = "/exports/eddie/scratch/chalcrow/code/nolanlab-dlc/"
+    uv_directory = os.getcwd()
     python_arg = f"pose_estimation.py {mouse} {day} {session} {bodypart} --data_folder {data_folder} --deriv_folder {deriv_folder}"
 
-    run_stage_script(stagein_dict, job_name=stagein_job_name)
+    if do_stagein_job:
+        run_stage_script(stagein_dict, job_name=stagein_job_name)
     run_python_script(uv_directory, python_arg, cores=8, email="chalcrow@ed.ac.uk", staging=False, hold_jid=stagein_job_name, job_name=run_python_name)
     run_stage_script(stageout_dict, job_name=stageout_job_name, hold_jid=run_python_name)
 
