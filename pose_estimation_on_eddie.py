@@ -38,12 +38,12 @@ def main():
 
     data_folder = parser.parse_args().data_folder
     if len(data_folder) == 0:
-        data_folder = "/exports/eddie/scratch/chalcrow/wolf/data"
+        data_folder = "/exports/eddie/scratch/chalcrow/data"
     data_folder = Path(data_folder)
 
     deriv_folder = parser.parse_args().deriv_folder
     if len(deriv_folder) == 0:
-        deriv_folder = "/exports/eddie/scratch/chalcrow/wolf/derivatives"
+        deriv_folder = "/exports/eddie/scratch/chalcrow/derivatives"
     deriv_folder = Path(deriv_folder)
     
     recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/scripts/wolf/wolf_filepaths.csv')
@@ -53,11 +53,11 @@ def main():
     stagein_dict = {}
     for recording_path in recording_paths:
         recording_folder_name = Path(recording_path).name
-        if "OF1" in recording_path:
-            session_type_folder = data_folder
-            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
+        if "OF" in recording_path:
+            session_type_folder = data_folder / 'OF'
+            stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_*_{session}.avi'
         else:
-            session_type_folder = data_folder
+            session_type_folder = data_folder / 'VR'
             stagein_dict[f"{active_projects_path / recording_path}"] = session_type_folder / recording_folder_name / f'M{mouse_string}_D{day_string}_{session}_side_capture.avi'
         session_type_folder.mkdir(exist_ok=True)
         (session_type_folder / recording_folder_name).mkdir(exist_ok=True)

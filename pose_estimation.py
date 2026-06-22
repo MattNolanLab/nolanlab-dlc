@@ -46,6 +46,7 @@ import pandas as pd
 def make_cropped_video(video_path, output_path, cropping):
     if cropping is None:
         _ = shutil.copy(video_path, output_path)
+        return
 
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -99,12 +100,12 @@ def main():
 
     data_folder = parser.parse_args().data_folder
     if data_folder is None:
-        data_folder = "/exports/eddie/scratch/chalcrow/wolf/data"
+        data_folder = "/exports/eddie/scratch/chalcrow/data"
     data_folder = Path(data_folder)
 
     deriv_folder = parser.parse_args().deriv_folder
     if deriv_folder is None:
-        deriv_folder = "/exports/eddie/scratch/chalcrow/wolf/derivatives"
+        deriv_folder = "/exports/eddie/scratch/chalcrow/derivatives"
     deriv_folder = Path(deriv_folder)
 
     if bodypart == "tongue":
@@ -124,9 +125,8 @@ def main():
             / f"M{mouse:02d}_D{day:02d}_{session}_side_capture.avi"
         )
     else:
-        video_path = str(
-            mouse_day_session_folder / f"M{mouse:02d}_D{day:02d}_{session}.avi"
-        )
+        matching_files = list(mouse_day_session_folder.glob(f'M{mouse:02d}_D{day:02d}_*_{session}.avi'))
+        video_path = str(matching_files[0])
 
     save_path = (
         deriv_folder / f"M{mouse:02d}/D{day:02d}/{session}/dlc_output_{bodypart}/"
