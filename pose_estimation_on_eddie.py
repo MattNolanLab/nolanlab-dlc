@@ -73,7 +73,7 @@ def main():
         output_path = session_type_folder / recording_folder_name / video_name
 
         if len(list(output_path.parent.glob(video_name))) == 0:
-            stagein_dict[f"{active_projects_path / recording_path}"] = output_path
+            stagein_dict[f"{active_projects_path / recording_path / video_name}"] = session_type_folder / recording_folder_name
             do_stagein_job = True
             
         session_type_folder.mkdir(exist_ok=True)
