@@ -48,7 +48,7 @@ def main():
     
     recording_paths = filepath_from_mouse_day_sessions(mouse, day, sessions=[session], path_to_all_filepaths='../nolanlab-ephys/scripts/wolf/wolf_filepaths.csv')
 
-    active_projects_path = Path("/exports/cmvm/datastore/sbms/groups/CDBS_SIDB_storage/NolanLab/ActiveProjects/")
+    active_projects_path = Path("/exports/cmvm/datastore/sbms/groups/INCR-NolanLab/ActiveProjects/")
     
     stagein_dict = {}
     for recording_path in recording_paths:
